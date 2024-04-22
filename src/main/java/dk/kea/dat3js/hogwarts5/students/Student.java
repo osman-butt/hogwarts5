@@ -80,6 +80,34 @@ public class Student {
     this.schoolYear = schoolYear;
   }
 
+  public String getFullName() {
+    return firstName + " " + (middleName!=null ? middleName + " " : "") + lastName;
+  }
+
+  public void setFullName(String fullName) {
+    if (fullName == null || fullName.isEmpty()) {
+      throw new IllegalArgumentException("fullName cannot be null or empty");
+    }
+    int firstSpace = fullName.indexOf(" ");
+    int lastSpace = fullName.lastIndexOf(" ");
+    var names = fullName.split(" ");
+    if (names.length == 1) {
+      firstName = names[0];
+      middleName = null;
+      lastName = null;
+    }
+    if (names.length == 2) {
+      firstName = names[0];
+      middleName = null;
+      lastName = names[1];
+    }
+    if (names.length > 2) {
+        firstName = names[0];
+        middleName = fullName.substring(firstSpace + 1, lastSpace);
+        lastName = fullName.substring(lastSpace + 1);
+    }
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
