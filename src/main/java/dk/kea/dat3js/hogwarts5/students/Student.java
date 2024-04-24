@@ -3,7 +3,9 @@ package dk.kea.dat3js.hogwarts5.students;
 import dk.kea.dat3js.hogwarts5.house.House;
 import jakarta.persistence.*;
 
+import java.util.Arrays;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Entity
 public class Student {
@@ -45,7 +47,7 @@ public class Student {
   }
 
   public void setFirstName(String firstName) {
-    this.firstName = firstName;
+    this.firstName = capitalize(firstName);
   }
 
   public String getMiddleName() {
@@ -53,7 +55,12 @@ public class Student {
   }
 
   public void setMiddleName(String middleName) {
-    this.middleName = middleName;
+    middleName = middleName.replaceAll("\\s+", " ").trim();
+    if (middleName.contains(" ")) {
+      int space = middleName.indexOf(" ");
+        this.middleName = capitalize(middleName.substring(0, space)) + " " + capitalize(middleName.substring(space + 1));
+    }
+    this.middleName = Arrays.stream(middleName.split(" ")).map(this::capitalize).collect(Collectors.joining(" "));
   }
 
   public String getLastName() {
@@ -61,7 +68,7 @@ public class Student {
   }
 
   public void setLastName(String lastName) {
-    this.lastName = lastName;
+    this.lastName = capitalize(lastName);
   }
 
   public House getHouse() {
@@ -81,31 +88,38 @@ public class Student {
   }
 
   public String getFullName() {
-    return firstName + " " + (middleName!=null ? middleName + " " : "") + lastName;
+    return firstName  + (middleName!=null ? " " + middleName : "") + (lastName!=null ? " " + lastName : "");
   }
 
   public void setFullName(String fullName) {
     if (fullName == null || fullName.isEmpty()) {
       throw new IllegalArgumentException("fullName cannot be null or empty");
     }
+
+    fullName = fullName.replaceAll("\\s+", " ").trim();
+
     int firstSpace = fullName.indexOf(" ");
     int lastSpace = fullName.lastIndexOf(" ");
     var names = fullName.split(" ");
+    firstName = null;
+    middleName = null;
+    lastName = null;
     if (names.length == 1) {
-      firstName = names[0];
-      middleName = null;
-      lastName = null;
+      setFirstName(names[0]);
     }
     if (names.length == 2) {
-      firstName = names[0];
-      middleName = null;
-      lastName = names[1];
+      setFirstName(names[0]);
+      setLastName(names[1]);
     }
     if (names.length > 2) {
-        firstName = names[0];
-        middleName = fullName.substring(firstSpace + 1, lastSpace);
-        lastName = fullName.substring(lastSpace + 1);
+      setFirstName(names[0]);
+      setMiddleName(fullName.substring(firstSpace + 1, lastSpace));
+      setLastName(fullName.substring(lastSpace + 1));
     }
+  }
+
+  private String capitalize(String name) {
+    return name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
   }
 
   @Override
