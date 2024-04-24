@@ -83,12 +83,11 @@ class StudentTest {
         // Arrange
         Student student = new Student("First", "Middle", "Last", null, 5);
 
-        // Act & Assert
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            student.setFullName("");
-        });
-        assertEquals("fullName cannot be null or empty", exception.getMessage());
+        // Act
+        student.setFullName("");
 
+        // Act & Assert
+        assertEquals("First", student.getFirstName());
         assertEquals("Middle", student.getMiddleName());
         assertEquals("Last", student.getLastName());
     }
@@ -98,12 +97,11 @@ class StudentTest {
         // Arrange
         Student student = new Student("First", "Middle", "Last", null, 5);
 
-        // Act & Assert
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            student.setFullName(null);
-        });
-        assertEquals("fullName cannot be null or empty", exception.getMessage());
+        // Act
+        student.setFullName(null);
 
+        // Assert
+        assertEquals("First", student.getFirstName());
         assertEquals("Middle", student.getMiddleName());
         assertEquals("Last", student.getLastName());
     }
@@ -143,7 +141,7 @@ class StudentTest {
     @Test
     void capitalizeIndividualNamesWithMultipleMiddleNamesAndCrazyCapitalization() {
         // Arrange
-        Student student = new Student("harry", "james", "potter", null, 5);
+        Student student = new Student("first", "middle", "last", null, 5);
 
         // Act
         student.setFirstName("hArRy");
@@ -154,5 +152,19 @@ class StudentTest {
         assertEquals("Harry", student.getFirstName());
         assertEquals("James Sirius", student.getMiddleName());
         assertEquals("Potter", student.getLastName());
+    }
+
+    @Test
+    void capitalizeFullNameWithSpecialCharacterAndCrazyCapitalization() {
+        // Arrange
+        Student student = new Student("first", "middle", "last", null, 5);
+
+        // Act
+        student.setFullName("juSTIN finCH-fLETCHLEY");
+
+        // Assert
+        assertEquals("Justin", student.getFirstName());
+        assertNull(student.getMiddleName());
+        assertEquals("Finch-Fletchley", student.getLastName());
     }
 }
