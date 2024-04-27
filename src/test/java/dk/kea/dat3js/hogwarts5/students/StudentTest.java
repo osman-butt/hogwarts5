@@ -9,7 +9,7 @@ class StudentTest {
     @Test
     void givenMiddleName_whenGetFullName_thenReturnFirstMiddleAndLast() {
         // Arrange
-        Student student = new Student("Harry", "James", "Potter", null, 5);
+        Student student = new Student("Harry", "James", "Potter", null, 5, Gender.MALE);
 
         // Act
         var fullName = student.getFullName();
@@ -21,7 +21,7 @@ class StudentTest {
     @Test
     void givenNoMiddleName_whenGetFullName_thenReturnFirstAndLast() {
         // Arrange
-        Student student = new Student("Cho", "Chang",  null, 5);
+        Student student = new Student("Cho", "Chang",  null, 5, Gender.FEMALE);
 
         // Act
         var fullName = student.getFullName();
@@ -33,7 +33,7 @@ class StudentTest {
     @Test
     void setFullNameWithMiddleName() {
         // Arrange
-        Student student = new Student("First", "Middle", "Last", null, 5);
+        Student student = new Student("First", "Middle", "Last", null, 5, Gender.MALE);
         // Act
         student.setFullName("Harry James Potter");
         // Assert
@@ -45,7 +45,7 @@ class StudentTest {
     @Test
     void setFullNameWithoutMiddleName() {
         // Arrange
-        Student student = new Student("First", "Middle", "Last", null, 5);
+        Student student = new Student("First", "Middle", "Last", null, 5, Gender.FEMALE);
         // Act
         student.setFullName("Cho Chang");
         // Assert
@@ -57,7 +57,7 @@ class StudentTest {
     @Test
     void setFullNameWithoutLastName() {
         // Arrange
-        Student student = new Student("First", "Middle", "Last", null, 5);
+        Student student = new Student("First", "Middle", "Last", null, 5, Gender.MALE);
         // Act
         student.setFullName("Harry");
         // Assert
@@ -69,7 +69,7 @@ class StudentTest {
     @Test
     void setFullNameWithMultipleMiddleNames() {
         // Arrange
-        Student student = new Student("First", "Middle", "Last", null, 5);
+        Student student = new Student("First", "Middle", "Last", null, 5, Gender.MALE);
         // Act
         student.setFullName("Harry James Sirius Potter");
         // Assert
@@ -81,7 +81,7 @@ class StudentTest {
     @Test
     void setFullNameWithEmptyString() {
         // Arrange
-        Student student = new Student("First", "Middle", "Last", null, 5);
+        Student student = new Student("First", "Middle", "Last", null, 5, Gender.MALE);
 
         // Act
         student.setFullName("");
@@ -95,7 +95,7 @@ class StudentTest {
     @Test
     void setFullNameWithNull() {
         // Arrange
-        Student student = new Student("First", "Middle", "Last", null, 5);
+        Student student = new Student("First", "Middle", "Last", null, 5, Gender.MALE);
 
         // Act
         student.setFullName(null);
@@ -109,7 +109,7 @@ class StudentTest {
     @Test
     void capitalizeIndividualNames() {
         // Arrange
-        Student student = new Student("harry", "james", "potter", null, 5);
+        Student student = new Student("harry", "james", "potter", null, 5, Gender.MALE);
 
         // Act
         student.setFirstName("harry");
@@ -125,7 +125,7 @@ class StudentTest {
     @Test
     void capitalizeIndividualNamesWithCrazyCapitalization() {
         // Arrange
-        Student student = new Student("harry", "james", "potter", null, 5);
+        Student student = new Student("harry", "james", "potter", null, 5, Gender.MALE);
 
         // Act
         student.setFirstName("hArRy");
@@ -141,7 +141,7 @@ class StudentTest {
     @Test
     void capitalizeIndividualNamesWithMultipleMiddleNamesAndCrazyCapitalization() {
         // Arrange
-        Student student = new Student("first", "middle", "last", null, 5);
+        Student student = new Student("first", "middle", "last", null, 5, Gender.MALE);
 
         // Act
         student.setFirstName("hArRy");
@@ -157,7 +157,7 @@ class StudentTest {
     @Test
     void capitalizeFullNameWithSpecialCharacterAndCrazyCapitalization() {
         // Arrange
-        Student student = new Student("first", "middle", "last", null, 5);
+        Student student = new Student("first", "middle", "last", null, 5, Gender.MALE);
 
         // Act
         student.setFullName("juSTIN finCH-fLETCHLEY");

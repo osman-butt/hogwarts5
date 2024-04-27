@@ -19,20 +19,32 @@ public class Student implements PersonWithNames {
   @ManyToOne
   private House house;
   private Integer schoolYear; // 1-7
+  private boolean isPrefect;
+  private Gender gender;
 
   public Student() {
   }
 
-  public Student(String firstName, String lastName, House house, int schoolYear) {
-    this(firstName, null, lastName, house, schoolYear);
+  public Student(String firstName, String lastName, House house, int schoolYear,Gender gender) {
+    this(firstName, null, lastName, house, schoolYear,gender);
   }
 
-  public Student(String firstName, String middleName, String lastName, House house, int schoolYear) {
+  public Student(String firstName, String lastName, House house, int schoolYear,Gender gender, boolean isPrefect) {
+    this(firstName, null, lastName, house, schoolYear,gender,isPrefect);
+  }
+
+  public Student(String firstName, String middleName, String lastName, House house, int schoolYear,Gender gender, boolean isPrefect) {
     this.firstName = firstName;
     this.middleName = middleName;
     this.lastName = lastName;
     this.house = house;
     this.schoolYear = schoolYear;
+    this.gender = gender;
+    this.isPrefect = isPrefect;
+  }
+
+  public Student(String firstName, String middleName, String lastName, House house, int schoolYear,Gender gender) {
+    this(firstName, middleName, lastName, house, schoolYear,gender,false);
   }
 
   public int getId() {
@@ -81,6 +93,22 @@ public class Student implements PersonWithNames {
 
   public void setSchoolYear(Integer schoolYear) {
     this.schoolYear = schoolYear;
+  }
+
+  public boolean isPrefect() {
+    return isPrefect;
+  }
+
+  public void setPrefect(boolean prefect) {
+    isPrefect = prefect;
+  }
+
+  public Gender getGender() {
+    return gender;
+  }
+
+  public void setGender(Gender gender) {
+    this.gender = gender;
   }
 
   @Override

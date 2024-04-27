@@ -79,7 +79,9 @@ public class StudentService {
         studentEntity.getLastName(),
         studentEntity.getFullName(),
         studentEntity.getHouse().getName(),
-        studentEntity.getSchoolYear()
+        studentEntity.getSchoolYear(),
+        studentEntity.getGender().name(),
+        studentEntity.isPrefect()
     );
 
     return dto;
@@ -91,7 +93,9 @@ public class StudentService {
         studentDTO.middleName(),
         studentDTO.lastName(),
         houseService.findById(studentDTO.house()).orElseThrow(),
-        studentDTO.schoolYear()
+        studentDTO.schoolYear(),
+        Gender.valueOf(studentDTO.gender()),
+        studentDTO.isPrefect()
     );
 
     if (studentDTO.name() != null) {
