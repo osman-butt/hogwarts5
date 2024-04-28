@@ -3,7 +3,7 @@
 ## Service test
 Der er tilføjet test til alle nye service metoder.
 
-## Controller
+## Controller test
 Controllerne testes via postman.
 
 ### `POST /prefects`
