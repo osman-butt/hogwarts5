@@ -1,5 +1,6 @@
 package dk.kea.dat3js.hogwarts5.students;
 
+import dk.kea.dat3js.hogwarts5.prefects.PrefectService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,9 +12,11 @@ import java.util.List;
 public class StudentController {
 
   private final StudentService studentService;
+  private final PrefectService prefectService;
 
-  public StudentController(StudentService studentService) {
+  public StudentController(StudentService studentService,PrefectService prefectService) {
     this.studentService = studentService;
+    this.prefectService = prefectService;
   }
 
   // get all students
@@ -42,6 +45,11 @@ public class StudentController {
   @PatchMapping("/{id}")
   public ResponseEntity<StudentResponseDTO> partialUpdateStudent(@PathVariable int id, @RequestBody StudentRequestDTO student) {
     return ResponseEntity.of(studentService.partialUpdate(id, student));
+  }
+
+  @PatchMapping("/prefect/{id}")
+  public ResponseEntity<StudentResponseDTO> partialUpdateStudent(@PathVariable int id, @RequestBody StudentRequestDetailedDTO student) {
+    return ResponseEntity.ok(prefectService.updatePrefect(id, student));
   }
 
   @DeleteMapping("/{id}")
