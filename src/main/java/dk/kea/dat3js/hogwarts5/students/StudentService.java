@@ -1,6 +1,7 @@
 package dk.kea.dat3js.hogwarts5.students;
 
 import dk.kea.dat3js.hogwarts5.house.HouseService;
+import dk.kea.dat3js.hogwarts5.prefects.PrefectService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,28 +42,59 @@ public class StudentService {
 
   public Optional<StudentResponseDTO> partialUpdate(int id, StudentRequestDTO student) {
     Optional<Student> existingStudent = studentRepository.findById(id);
-    if(existingStudent.isPresent()) {
-      Student studentToUpdate = existingStudent.get();
-      if(student.firstName() != null) {
-        studentToUpdate.setFirstName(student.firstName());
-      }
-      if(student.middleName() != null) {
-        studentToUpdate.setMiddleName(student.middleName());
-      }
-      if(student.lastName() != null) {
-        studentToUpdate.setLastName(student.lastName());
-      }
-      if(student.house() != null) {
-        studentToUpdate.setHouse(houseService.findById(student.house()).orElseThrow());
-      }
-      if(student.schoolYear() != null) {
-        studentToUpdate.setSchoolYear(student.schoolYear());
-      }
-      return Optional.of(toDTO(studentRepository.save(studentToUpdate)));
-    } else {
+    if (existingStudent.isEmpty()) {
       // TODO: handle error
       return Optional.empty();
     }
+    Student studentToUpdate = existingStudent.get();
+    if(student.firstName() != null) {
+      studentToUpdate.setFirstName(student.firstName());
+    }
+    if(student.middleName() != null) {
+      studentToUpdate.setMiddleName(student.middleName());
+    }
+    if(student.lastName() != null) {
+      studentToUpdate.setLastName(student.lastName());
+    }
+    if(student.house() != null) {
+      studentToUpdate.setHouse(houseService.findById(student.house()).orElseThrow());
+    }
+    if(student.schoolYear() != null) {
+      studentToUpdate.setSchoolYear(student.schoolYear());
+    }
+    return Optional.of(toDTO(studentRepository.save(studentToUpdate)));
+  }
+
+  public Optional<StudentResponseDTO> partialUpdate(int id, StudentRequestDetailedDTO student) {
+    Optional<Student> existingStudent = studentRepository.findById(id);
+    if (existingStudent.isEmpty()) {
+      // TODO: handle error
+      return Optional.empty();
+    }
+    Student studentToUpdate = existingStudent.get();
+    if(student.getFirstName() != null) {
+      studentToUpdate.setFirstName(student.getFirstName());
+    }
+    if(student.getMiddleName() != null) {
+      studentToUpdate.setMiddleName(student.getMiddleName());
+    }
+    if(student.getLastName() != null) {
+      studentToUpdate.setLastName(student.getLastName());
+    }
+    if(student.getHouse() != null) {
+      studentToUpdate.setHouse(houseService.findById(student.getHouse()).orElseThrow());
+    }
+    if(student.getSchoolYear() != null) {
+      studentToUpdate.setSchoolYear(student.getSchoolYear());
+    }
+    if(student.getPrefect() != null) {
+      studentToUpdate.setPrefect(student.getPrefect());
+    }
+    return Optional.of(toDTO(studentRepository.save(studentToUpdate)));
+  }
+
+  public List<StudentResponseDTO> findByHouseName(String houseName) {
+    return studentRepository.findByHouseName(houseName).stream().map(this::toDTO).toList();
   }
 
   public Optional<StudentResponseDTO> deleteById(int id) {
@@ -94,8 +126,7 @@ public class StudentService {
         studentDTO.lastName(),
         houseService.findById(studentDTO.house()).orElseThrow(),
         studentDTO.schoolYear(),
-        Gender.valueOf(studentDTO.gender()),
-        studentDTO.isPrefect()
+        Gender.valueOf(studentDTO.gender().toUpperCase())
     );
 
     if (studentDTO.name() != null) {
