@@ -25,7 +25,7 @@ Controllerne testes via postman.
 ### `GET /prefects/house/{house}`
 - Returnerer en liste over alle prefects for et specifikt house.
 
-### ´DELETE /prefects/:id´
+### `DELETE /prefects/:id`
 - Fjener prefect fra en student og returnerer et student objekt
 
 ### `PATCH /students/{id}`
